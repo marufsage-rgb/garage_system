@@ -8,6 +8,7 @@ import {
   ShieldCheck,
   Phone,
   Mail,
+  MessageSquare,
   MapPin,
   Calendar,
   Sparkles,
@@ -40,7 +41,7 @@ export const PublicPortalView: React.FC<PublicPortalViewProps> = ({
   state,
   onNavigate,
 }) => {
-  const [activeTab, setActiveTab] = useState<'tracking' | 'services' | 'photos' | 'about' | 'booking'>('tracking');
+  const [activeTab, setActiveTab] = useState<'tracking' | 'services' | 'photos' | 'about' | 'contact' | 'booking'>('tracking');
   const [searchQuery, setSearchQuery] = useState('');
   const [searchedCardId, setSearchedCardId] = useState<string>('R-4011');
 
@@ -51,6 +52,9 @@ export const PublicPortalView: React.FC<PublicPortalViewProps> = ({
   const [bookingService, setBookingService] = useState('Computerized Paint & Denting');
   const [bookingDate, setBookingDate] = useState('');
   const [bookingSubmitted, setBookingSubmitted] = useState(false);
+
+  const [contactForm, setContactForm] = useState({ name: '', email: '', subject: '', message: '' });
+  const [contactSubmitted, setContactSubmitted] = useState(false);
 
   // All job cards
   const jobCards = useMemo(() => state.jobCards || [], [state.jobCards]);
@@ -110,6 +114,12 @@ export const PublicPortalView: React.FC<PublicPortalViewProps> = ({
       setBookingDate('');
       setBookingSubmitted(false);
     }, 4000);
+  };
+
+  const handleContactSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setContactSubmitted(true);
+    setContactForm({ name: '', email: '', subject: '', message: '' });
   };
 
   const handlePrintPass = () => {
@@ -233,6 +243,18 @@ export const PublicPortalView: React.FC<PublicPortalViewProps> = ({
             >
               <Info className="w-3.5 h-3.5" />
               <span>Company Information</span>
+            </button>
+
+            <button
+              onClick={() => { setActiveTab('contact'); setContactSubmitted(false); }}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                activeTab === 'contact'
+                  ? 'bg-orange-600 text-white shadow-lg'
+                  : 'bg-slate-800/60 text-slate-300 hover:bg-slate-800 hover:text-white'
+              }`}
+            >
+              <MessageSquare className="w-3.5 h-3.5" />
+              <span>Contact Us</span>
             </button>
 
             <button
@@ -844,9 +866,54 @@ export const PublicPortalView: React.FC<PublicPortalViewProps> = ({
         </div>
       )}
 
+      {activeTab === 'contact' && (
+        <section className="grid grid-cols-1 lg:grid-cols-[0.82fr_1.18fr] gap-6">
+          <div className="rounded-2xl bg-slate-950 text-white p-7 md:p-9 shadow-xl overflow-hidden relative">
+            <div className="absolute -right-16 -top-16 w-48 h-48 rounded-full bg-orange-500/15 blur-2xl" />
+            <div className="relative space-y-6">
+              <div>
+                <span className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-orange-400">
+                  <span className="w-8 h-px bg-orange-500" /> Get in touch
+                </span>
+                <h2 className="mt-3 text-3xl font-black tracking-tight">Let&apos;s get your vehicle back on the road.</h2>
+                <p className="mt-3 text-sm leading-6 text-slate-300">Tell us what you need and our workshop team will get back to you with the right next step.</p>
+              </div>
+              <div className="space-y-4 text-sm">
+                <a href="tel:+96893211154" className="flex items-center gap-3 text-slate-200 hover:text-orange-400 transition-colors"><Phone className="w-4 h-4 text-orange-400" /> +968 93211154</a>
+                <a href="mailto:info@zukaitauto.com" className="flex items-center gap-3 text-slate-200 hover:text-orange-400 transition-colors"><Mail className="w-4 h-4 text-orange-400" /> info@zukaitauto.com</a>
+                <div className="flex items-start gap-3 text-slate-300"><MapPin className="w-4 h-4 text-orange-400 mt-0.5" /> Barka Industrial Area, Sultanate of Oman</div>
+              </div>
+              <div className="pt-4 border-t border-white/10 text-xs text-slate-400">Typical reply time: within one business day</div>
+            </div>
+          </div>
+
+          <div className="rounded-2xl bg-white border border-slate-200 p-6 md:p-8 shadow-sm">
+            {contactSubmitted ? (
+              <div className="min-h-[360px] flex flex-col items-center justify-center text-center gap-4">
+                <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center"><CheckCircle2 className="w-7 h-7" /></div>
+                <h3 className="text-xl font-black text-slate-900">Message received</h3>
+                <p className="max-w-sm text-sm leading-6 text-slate-500">Thanks for reaching out. A member of the Zukait team will be in touch shortly.</p>
+                <button type="button" onClick={() => setContactSubmitted(false)} className="text-sm font-bold text-orange-600 hover:text-orange-700">Send another message</button>
+              </div>
+            ) : (
+              <form onSubmit={handleContactSubmit} className="space-y-5" aria-label="Contact Zukait Auto Services">
+                <div><p className="text-xs font-bold uppercase tracking-wider text-orange-600">Contact our team</p><h3 className="mt-1 text-2xl font-black text-slate-900">How can we help?</h3></div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <label className="space-y-2"><span className="text-sm font-semibold text-slate-700">Name</span><input required value={contactForm.name} onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })} className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20" placeholder="Your full name" /></label>
+                  <label className="space-y-2"><span className="text-sm font-semibold text-slate-700">Email</span><input required type="email" value={contactForm.email} onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })} className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20" placeholder="you@example.com" /></label>
+                </div>
+                <label className="space-y-2 block"><span className="text-sm font-semibold text-slate-700">Subject</span><input required value={contactForm.subject} onChange={(e) => setContactForm({ ...contactForm, subject: e.target.value })} className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20" placeholder="What can we help with?" /></label>
+                <label className="space-y-2 block"><span className="text-sm font-semibold text-slate-700">Message</span><textarea required rows={5} value={contactForm.message} onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })} className="w-full resize-none rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20" placeholder="Tell us a little about your vehicle or service request..." /></label>
+                <button type="submit" className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-orange-600 px-5 py-3.5 text-sm font-bold text-white shadow-lg shadow-orange-600/20 transition hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"><Send className="w-4 h-4" /> Send message</button>
+              </form>
+            )}
+          </div>
+        </section>
+      )}
+
       {/* ─────────────────────────────────────────────────────────
           TAB 4: BOOKING SERVICE APPOINTMENT
-      ───────────────────────────────────────────────────────── */}
+          ───────────────────────────────────────────────────────── */}
       {activeTab === 'booking' && (
         <div className="max-w-xl mx-auto bg-white rounded-2xl border border-slate-200 p-6 md:p-8 shadow-sm">
           <div className="text-center space-y-1 mb-6">
