@@ -1,0 +1,6 @@
+{
+  "name": "Apex ERP Suite",
+  "description": "Full-scale Automotive Workshop & Enterprise ERP Suite with Lube/Bodyshop Job Cards, Vehicle Estimates (Parts+Labour & Lumpsum), WhatsApp/Insurance dispatch, live technician time tracking, and Job Card Profit & Loss.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

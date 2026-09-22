@@ -1,0 +1,1825 @@
+import { ERPState, Product, Customer, Vendor, SalesOrder, PurchaseOrder, Transaction, Employee, WorkOrder, ERPNotification, AuditLog, JobCard, Estimate, NotificationLog, Technician, ConsumableItem, SystemUser, DEFAULT_MANAGER_PERMISSIONS } from './types';
+
+export const initialProducts: Product[] = [
+  {
+    id: 'prod-001',
+    sku: 'SKU-IND-401',
+    name: 'Heavy Duty Stepper Motor 24V',
+    category: 'Industrial Components',
+    unit: 'pcs',
+    unitPrice: 145.00,
+    costPrice: 85.00,
+    stockQuantity: 42,
+    reorderLevel: 20,
+    warehouseLocation: 'WH-A / Row 4 / Shelf 2',
+    status: 'in_stock'
+  },
+  {
+    id: 'prod-002',
+    sku: 'SKU-IND-402',
+    name: 'Precision Optical Sensor V3',
+    category: 'Sensors & IoT',
+    unit: 'pcs',
+    unitPrice: 88.50,
+    costPrice: 42.00,
+    stockQuantity: 12,
+    reorderLevel: 25,
+    warehouseLocation: 'WH-A / Row 2 / Shelf 1',
+    status: 'low_stock'
+  },
+  {
+    id: 'prod-003',
+    sku: 'SKU-RAW-105',
+    name: 'Aircraft Grade Aluminum Extrusion 2m',
+    category: 'Raw Materials',
+    unit: 'bars',
+    unitPrice: 220.00,
+    costPrice: 130.00,
+    stockQuantity: 85,
+    reorderLevel: 30,
+    warehouseLocation: 'WH-B / Yard 1',
+    status: 'in_stock'
+  },
+  {
+    id: 'prod-004',
+    sku: 'SKU-PCB-909',
+    name: 'Microcontroller Logic Board ARM Cortex',
+    category: 'Electronics',
+    unit: 'pcs',
+    unitPrice: 310.00,
+    costPrice: 190.00,
+    stockQuantity: 4,
+    reorderLevel: 15,
+    warehouseLocation: 'WH-A / ESD Room',
+    status: 'low_stock'
+  },
+  {
+    id: 'prod-005',
+    sku: 'SKU-CAB-012',
+    name: 'Shielded Industrial Ethernet Cat7 (100m)',
+    category: 'Cabling & Network',
+    unit: 'spools',
+    unitPrice: 175.00,
+    costPrice: 95.00,
+    stockQuantity: 36,
+    reorderLevel: 10,
+    warehouseLocation: 'WH-B / Row 1 / Shelf 5',
+    status: 'in_stock'
+  },
+  {
+    id: 'prod-006',
+    sku: 'SKU-HYD-502',
+    name: 'Hydraulic Control Valve 350 Bar',
+    category: 'Hydraulics',
+    unit: 'units',
+    unitPrice: 520.00,
+    costPrice: 320.00,
+    stockQuantity: 18,
+    reorderLevel: 8,
+    warehouseLocation: 'WH-C / Bay 3',
+    status: 'in_stock'
+  },
+  {
+    id: 'prod-007',
+    sku: 'SKU-FST-210',
+    name: 'Titanium Fastener Bolt M8x40 (Box of 200)',
+    category: 'Fasteners',
+    unit: 'boxes',
+    unitPrice: 65.00,
+    costPrice: 32.00,
+    stockQuantity: 0,
+    reorderLevel: 10,
+    warehouseLocation: 'WH-A / Row 8 / Bin 14',
+    status: 'out_of_stock'
+  },
+  {
+    id: 'prod-008',
+    sku: 'SKU-LUB-880',
+    name: 'High-Temperature Synthetic Lubricant 5L',
+    category: 'Chemicals & Consumables',
+    unit: 'canisters',
+    unitPrice: 95.00,
+    costPrice: 55.00,
+    stockQuantity: 28,
+    reorderLevel: 12,
+    warehouseLocation: 'WH-C / Hazmat Locker',
+    status: 'in_stock'
+  }
+];
+
+export const initialCustomers: Customer[] = [
+  {
+    id: 'cust-001',
+    name: 'Elena Rostova',
+    company: 'Apex Automation Corp',
+    email: 'e.rostova@apexautomation.io',
+    phone: '+1 (555) 234-8901',
+    address: '450 Industrial Parkway, Austin, TX 78701',
+    outstandingBalance: 14250.00,
+    status: 'active'
+  },
+  {
+    id: 'cust-002',
+    name: 'Marcus Vance',
+    company: 'Vance Robotics & Systems',
+    email: 'marcus@vancerobotics.com',
+    phone: '+1 (555) 491-0023',
+    address: '1200 Innovation Way, Detroit, MI 48202',
+    outstandingBalance: 3180.00,
+    status: 'active'
+  },
+  {
+    id: 'cust-003',
+    name: 'Claire Moreau',
+    company: 'Skyline Aerospace Ltd',
+    email: 'cmoreau@skylineaero.org',
+    phone: '+1 (555) 872-9114',
+    address: '88 Hangar Road, Seattle, WA 98108',
+    outstandingBalance: 28900.00,
+    status: 'active'
+  },
+  {
+    id: 'cust-004',
+    name: 'Devon Patel',
+    company: 'Quantum Dynamics Tech',
+    email: 'd.patel@quantumdynamics.co',
+    phone: '+1 (555) 603-4419',
+    address: '710 Silicon Blvd, San Jose, CA 95110',
+    outstandingBalance: 0.00,
+    status: 'active'
+  },
+  {
+    id: 'cust-005',
+    name: 'Hannah Schultz',
+    company: 'Nordic Mechatronics GmbH',
+    email: 'hannah.s@nordicmech.de',
+    phone: '+49 89 2039 4410',
+    address: 'Siemensstraße 14, 80335 Munich, Germany',
+    outstandingBalance: 6450.00,
+    status: 'active'
+  }
+];
+
+export const initialVendors: Vendor[] = [
+  {
+    id: 'vend-001',
+    name: 'Kenji Takahashi',
+    company: 'Kyoto Precision Metals Inc',
+    email: 'orders@kyotometals.jp',
+    phone: '+81 75 901 3211',
+    paymentTerms: 'Net 30',
+    balanceOwed: 18400.00,
+    rating: 4.9
+  },
+  {
+    id: 'vend-002',
+    name: 'Arthur Sterling',
+    company: 'Global Microchips Logistics',
+    email: 'sales@globalmicrochips.net',
+    phone: '+1 (555) 789-2210',
+    paymentTerms: 'Net 15',
+    balanceOwed: 24650.00,
+    rating: 4.7
+  },
+  {
+    id: 'vend-003',
+    name: 'Valerie Dupont',
+    company: 'EuroFluid Hydraulics SARL',
+    email: 'contact@eurofluid.fr',
+    phone: '+33 1 42 68 55 00',
+    paymentTerms: 'Net 45',
+    balanceOwed: 8900.00,
+    rating: 4.8
+  },
+  {
+    id: 'vend-004',
+    name: 'Samuel Thorne',
+    company: 'Allied Fasteners & Hardware',
+    email: 'sthorne@alliedfasteners.com',
+    phone: '+1 (555) 345-9801',
+    paymentTerms: 'Due on Receipt',
+    balanceOwed: 1200.00,
+    rating: 4.5
+  }
+];
+
+export const initialSalesOrders: SalesOrder[] = [
+  {
+    id: 'so-1001',
+    orderNumber: 'SO-2026-089',
+    customerId: 'cust-001',
+    customerName: 'Elena Rostova',
+    customerCompany: 'Apex Automation Corp',
+    date: '2026-09-14',
+    dueDate: '2026-09-28',
+    items: [
+      { id: 'item-1', productId: 'prod-001', sku: 'SKU-IND-401', productName: 'Heavy Duty Stepper Motor 24V', quantity: 15, unitPrice: 145.00, total: 2175.00 },
+      { id: 'item-2', productId: 'prod-003', sku: 'SKU-RAW-105', productName: 'Aircraft Grade Aluminum Extrusion 2m', quantity: 20, unitPrice: 220.00, total: 4400.00 }
+    ],
+    subtotal: 6575.00,
+    tax: 526.00,
+    discount: 100.00,
+    total: 7001.00,
+    status: 'confirmed',
+    paymentStatus: 'partial',
+    notes: 'Rush delivery requested for secondary production line.'
+  },
+  {
+    id: 'so-1002',
+    orderNumber: 'SO-2026-090',
+    customerId: 'cust-003',
+    customerName: 'Claire Moreau',
+    customerCompany: 'Skyline Aerospace Ltd',
+    date: '2026-09-15',
+    dueDate: '2026-09-30',
+    items: [
+      { id: 'item-3', productId: 'prod-006', sku: 'SKU-HYD-502', productName: 'Hydraulic Control Valve 350 Bar', quantity: 8, unitPrice: 520.00, total: 4160.00 },
+      { id: 'item-4', productId: 'prod-004', sku: 'SKU-PCB-909', productName: 'Microcontroller Logic Board ARM Cortex', quantity: 10, unitPrice: 310.00, total: 3100.00 }
+    ],
+    subtotal: 7260.00,
+    tax: 580.80,
+    discount: 200.00,
+    total: 7640.80,
+    status: 'processing',
+    paymentStatus: 'paid',
+    notes: 'Contract A-892 milestone 2 billing.'
+  },
+  {
+    id: 'so-1003',
+    orderNumber: 'SO-2026-091',
+    customerId: 'cust-002',
+    customerName: 'Marcus Vance',
+    customerCompany: 'Vance Robotics & Systems',
+    date: '2026-09-16',
+    dueDate: '2026-10-05',
+    items: [
+      { id: 'item-5', productId: 'prod-002', sku: 'SKU-IND-402', productName: 'Precision Optical Sensor V3', quantity: 25, unitPrice: 88.50, total: 2212.50 },
+      { id: 'item-6', productId: 'prod-005', sku: 'SKU-CAB-012', productName: 'Shielded Industrial Ethernet Cat7 (100m)', quantity: 6, unitPrice: 175.00, total: 1050.00 }
+    ],
+    subtotal: 3262.50,
+    tax: 261.00,
+    discount: 0.00,
+    total: 3523.50,
+    status: 'shipped',
+    paymentStatus: 'paid',
+    notes: 'Tracking number FEDEX-9812-7893-X'
+  },
+  {
+    id: 'so-1004',
+    orderNumber: 'SO-2026-092',
+    customerId: 'cust-005',
+    customerName: 'Hannah Schultz',
+    customerCompany: 'Nordic Mechatronics GmbH',
+    date: '2026-09-17',
+    dueDate: '2026-10-10',
+    items: [
+      { id: 'item-7', productId: 'prod-001', sku: 'SKU-IND-401', productName: 'Heavy Duty Stepper Motor 24V', quantity: 30, unitPrice: 145.00, total: 4350.00 }
+    ],
+    subtotal: 4350.00,
+    tax: 348.00,
+    discount: 150.00,
+    total: 4548.00,
+    status: 'draft',
+    paymentStatus: 'unpaid',
+    notes: 'Awaiting export customs verification.'
+  }
+];
+
+export const initialPurchaseOrders: PurchaseOrder[] = [
+  {
+    id: 'po-2001',
+    poNumber: 'PO-2026-044',
+    vendorId: 'vend-002',
+    vendorName: 'Global Microchips Logistics',
+    date: '2026-09-10',
+    expectedDate: '2026-09-22',
+    items: [
+      { id: 'poi-1', productId: 'prod-004', sku: 'SKU-PCB-909', productName: 'Microcontroller Logic Board ARM Cortex', quantity: 50, unitPrice: 190.00, total: 9500.00 }
+    ],
+    subtotal: 9500.00,
+    tax: 475.00,
+    total: 9975.00,
+    status: 'approved',
+    paymentStatus: 'unpaid',
+    notes: 'Urgent restocking for low inventory alert.'
+  },
+  {
+    id: 'po-2002',
+    poNumber: 'PO-2026-045',
+    vendorId: 'vend-001',
+    vendorName: 'Kyoto Precision Metals Inc',
+    date: '2026-09-12',
+    expectedDate: '2026-09-25',
+    items: [
+      { id: 'poi-2', productId: 'prod-003', sku: 'SKU-RAW-105', productName: 'Aircraft Grade Aluminum Extrusion 2m', quantity: 40, unitPrice: 130.00, total: 5200.00 }
+    ],
+    subtotal: 5200.00,
+    tax: 260.00,
+    total: 5460.00,
+    status: 'submitted',
+    paymentStatus: 'unpaid',
+    notes: 'Batch inspection certificate required upon delivery.'
+  },
+  {
+    id: 'po-2003',
+    poNumber: 'PO-2026-046',
+    vendorId: 'vend-004',
+    vendorName: 'Allied Fasteners & Hardware',
+    date: '2026-09-14',
+    expectedDate: '2026-09-18',
+    items: [
+      { id: 'poi-3', productId: 'prod-007', sku: 'SKU-FST-210', productName: 'Titanium Fastener Bolt M8x40 (Box of 200)', quantity: 20, unitPrice: 32.00, total: 640.00 }
+    ],
+    subtotal: 640.00,
+    tax: 32.00,
+    total: 672.00,
+    status: 'received',
+    paymentStatus: 'paid',
+    notes: 'Goods accepted into warehouse shelf B14.'
+  }
+];
+
+export const initialTransactions: Transaction[] = [
+  {
+    id: 'tx-001',
+    date: '2026-09-16',
+    type: 'income',
+    category: 'Customer Receipts',
+    description: 'Payment for Invoice SO-2026-091 (Vance Robotics)',
+    amount: 3523.50,
+    account: 'Operating Account (JPMorgan Chase)',
+    referenceNumber: 'WIRE-89104',
+    status: 'cleared'
+  },
+  {
+    id: 'tx-002',
+    date: '2026-09-15',
+    type: 'expense',
+    category: 'Vendor Settlement',
+    description: 'PO-2026-046 Payment to Allied Fasteners',
+    amount: 672.00,
+    account: 'Operating Account (JPMorgan Chase)',
+    referenceNumber: 'ACH-48192',
+    status: 'cleared'
+  },
+  {
+    id: 'tx-003',
+    date: '2026-09-14',
+    type: 'income',
+    category: 'Customer Receipts',
+    description: 'Advance deposit SO-2026-090 (Skyline Aerospace)',
+    amount: 7640.80,
+    account: 'Operating Account (JPMorgan Chase)',
+    referenceNumber: 'WIRE-77312',
+    status: 'cleared'
+  },
+  {
+    id: 'tx-004',
+    date: '2026-09-12',
+    type: 'expense',
+    category: 'Facility & Utilities',
+    description: 'Warehouse power & industrial refrigeration utility',
+    amount: 2150.00,
+    account: 'Commercial Card',
+    referenceNumber: 'AUTOPAY-551',
+    status: 'cleared'
+  },
+  {
+    id: 'tx-005',
+    date: '2026-09-10',
+    type: 'expense',
+    category: 'Freight & Logistics',
+    description: 'Expedited air freight logistics - DHL Global',
+    amount: 1480.00,
+    account: 'Operating Account (JPMorgan Chase)',
+    referenceNumber: 'INV-DHL-0921',
+    status: 'cleared'
+  },
+  {
+    id: 'tx-006',
+    date: '2026-09-08',
+    type: 'expense',
+    category: 'Payroll & Benefits',
+    description: 'Bi-weekly mid-month workforce compensation run',
+    amount: 28400.00,
+    account: 'Payroll Reserve (Silicon Valley Bank)',
+    referenceNumber: 'PAYROLL-26-17',
+    status: 'cleared'
+  }
+];
+
+export const initialEmployees: Employee[] = [
+  {
+    id: 'emp-001',
+    empId: 'E-101',
+    name: 'Julian Montgomery',
+    email: 'j.montgomery@enterprise.io',
+    phone: '+1 (555) 101-4490',
+    role: 'VP of Manufacturing & Operations',
+    department: 'Operations',
+    salary: 145000,
+    status: 'active',
+    joinDate: '2021-04-12'
+  },
+  {
+    id: 'emp-002',
+    empId: 'E-102',
+    name: 'Samantha Wei',
+    email: 's.wei@enterprise.io',
+    phone: '+1 (555) 203-9912',
+    role: 'Lead Systems Architect',
+    department: 'Engineering',
+    salary: 138000,
+    status: 'active',
+    joinDate: '2022-01-18'
+  },
+  {
+    id: 'emp-003',
+    empId: 'E-103',
+    name: 'Carlos Mendoza',
+    email: 'c.mendoza@enterprise.io',
+    phone: '+1 (555) 782-1144',
+    role: 'Supply Chain & Procurement Manager',
+    department: 'Operations',
+    salary: 98000,
+    status: 'active',
+    joinDate: '2023-06-01'
+  },
+  {
+    id: 'emp-004',
+    empId: 'E-104',
+    name: 'Aisha Al-Mansoor',
+    email: 'a.mansoor@enterprise.io',
+    phone: '+1 (555) 304-8821',
+    role: 'Financial Controller',
+    department: 'Finance',
+    salary: 115000,
+    status: 'active',
+    joinDate: '2022-09-15'
+  },
+  {
+    id: 'emp-005',
+    empId: 'E-105',
+    name: 'David Keller',
+    email: 'd.keller@enterprise.io',
+    phone: '+1 (555) 441-2099',
+    role: 'Enterprise Sales Executive',
+    department: 'Sales & Marketing',
+    salary: 92000,
+    status: 'active',
+    joinDate: '2023-11-10'
+  },
+  {
+    id: 'emp-006',
+    empId: 'E-106',
+    name: 'Priya Sharma',
+    email: 'p.sharma@enterprise.io',
+    phone: '+1 (555) 910-3372',
+    role: 'HR Business Partner & Talent Lead',
+    department: 'Human Resources',
+    salary: 86000,
+    status: 'active',
+    joinDate: '2024-02-01'
+  }
+];
+
+export const initialWorkOrders: WorkOrder[] = [
+  {
+    id: 'wo-301',
+    orderNumber: 'WO-2026-081',
+    productSku: 'SKU-IND-401',
+    productName: 'Heavy Duty Stepper Motor Assembly',
+    quantity: 50,
+    status: 'in_progress',
+    startDate: '2026-09-12',
+    targetDate: '2026-09-24',
+    priority: 'high',
+    assignedTo: 'Assembly Cell 3',
+    progress: 68
+  },
+  {
+    id: 'wo-302',
+    orderNumber: 'WO-2026-082',
+    productSku: 'SKU-PCB-909',
+    productName: 'Cortex Logic Board Surface Mount SMT',
+    quantity: 100,
+    status: 'planned',
+    startDate: '2026-09-18',
+    targetDate: '2026-09-28',
+    priority: 'high',
+    assignedTo: 'SMT Line 1',
+    progress: 15
+  },
+  {
+    id: 'wo-303',
+    orderNumber: 'WO-2026-083',
+    productSku: 'SKU-HYD-502',
+    productName: 'Hydraulic Valve Pressure Calibration',
+    quantity: 25,
+    status: 'in_progress',
+    startDate: '2026-09-14',
+    targetDate: '2026-09-21',
+    priority: 'medium',
+    assignedTo: 'Testing Lab B',
+    progress: 80
+  },
+  {
+    id: 'wo-304',
+    orderNumber: 'WO-2026-084',
+    productSku: 'SKU-RAW-105',
+    productName: 'CNC Aluminum Rail Profiling & Beveling',
+    quantity: 60,
+    status: 'completed',
+    startDate: '2026-09-05',
+    targetDate: '2026-09-12',
+    priority: 'low',
+    assignedTo: 'Milling Unit A',
+    progress: 100
+  }
+];
+
+export const initialNotifications: ERPNotification[] = [
+  {
+    id: 'notif-1',
+    title: 'Low Stock Alert: ARM Cortex Boards',
+    description: 'Only 4 units remain in WH-A ESD Room. Reorder threshold is 15.',
+    timestamp: '12 mins ago',
+    type: 'alert',
+    read: false,
+    linkModule: 'inventory'
+  },
+  {
+    id: 'notif-2',
+    title: 'New Sales Order Received',
+    description: 'SO-2026-092 created for Nordic Mechatronics (4,548.00).',
+    timestamp: '1 hour ago',
+    type: 'info',
+    read: false,
+    linkModule: 'sales'
+  },
+  {
+    id: 'notif-3',
+    title: 'Goods Receipt Verified: Titanium Bolts',
+    description: 'PO-2026-046 has been marked as Received into inventory.',
+    timestamp: '3 hours ago',
+    type: 'success',
+    read: true,
+    linkModule: 'purchasing'
+  },
+  {
+    id: 'notif-4',
+    title: 'Fiscal Period Closing in 13 Days',
+    description: 'Ensure all outstanding accounts receivable are cleared by end of month.',
+    timestamp: '5 hours ago',
+    type: 'warning',
+    read: true,
+    linkModule: 'finance'
+  }
+];
+
+export const initialAuditLogs: AuditLog[] = [
+  {
+    id: 'log-1',
+    action: 'System Initialized',
+    category: 'settings',
+    details: 'Base ERP core modules, secure database schemas, and multi-currency configurations deployed.',
+    performedBy: 'System Administrator',
+    timestamp: '2026-09-17 08:30:15',
+    severity: 'info',
+  },
+  {
+    id: 'log-2',
+    action: 'Product Stock Modified',
+    category: 'inventory',
+    details: 'Cycle count verification: SKU-IND-401 (Heavy Duty Stepper Motor) quantity verified at 42 units.',
+    performedBy: 'Admin',
+    timestamp: '2026-09-17 11:14:02',
+    severity: 'warning',
+  },
+  {
+    id: 'log-3',
+    action: 'Customer Account Created',
+    category: 'customers',
+    details: 'Created customer account for Al-Batinah Infrastructure (Salim Al-Harthy).',
+    performedBy: 'Sales Rep',
+    timestamp: '2026-09-17 14:22:45',
+    severity: 'info',
+  },
+  {
+    id: 'log-4',
+    action: 'Customer Account Deleted',
+    category: 'customers',
+    details: 'Permanently removed obsolete test account "Legacy Proto Ltd" (Contact: John Doe, Outstanding: OMR 0.00).',
+    performedBy: 'Super Admin',
+    timestamp: '2026-09-17 15:10:30',
+    severity: 'danger',
+  },
+  {
+    id: 'log-5',
+    action: 'Currency Policy Set',
+    category: 'settings',
+    details: 'Base operating currency configured to OMR (Omani Rial).',
+    performedBy: 'Super Admin',
+    timestamp: '2026-09-17 16:45:00',
+    severity: 'info',
+  }
+];
+
+export const initialTechnicians: Technician[] = [
+  {
+    id: 'tech-01',
+    name: 'Rashid Al-Ghafri',
+    specialization: 'Lube Specialist',
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80',
+    phone: '+968 9112 3456',
+    status: 'working',
+    currentJobCardNumber: 'LB-2026-101',
+    currentJobCardId: 'jc-101',
+    bay: 'Bay 1 (Lube Pit)',
+    activeTimerDurationMinutes: 45,
+    hourlyWage: 5.000,
+    completedJobsCount: 42,
+    reworkJobsCount: 0,
+    efficiencyRating: 98,
+  },
+  {
+    id: 'tech-02',
+    name: 'Tariq Mahmoud',
+    specialization: 'Master Denting',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&auto=format&fit=crop&q=80',
+    phone: '+968 9234 5678',
+    status: 'working',
+    currentJobCardNumber: 'BS-2026-201',
+    currentJobCardId: 'jc-201',
+    bay: 'Bay 4 (Chassis Jig)',
+    activeTimerDurationMinutes: 90,
+    hourlyWage: 5.500,
+    completedJobsCount: 28,
+    reworkJobsCount: 1,
+    efficiencyRating: 94,
+  },
+  {
+    id: 'tech-03',
+    name: 'Salim Al-Kharusi',
+    specialization: 'Senior Painter',
+    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&auto=format&fit=crop&q=80',
+    phone: '+968 9456 7890',
+    status: 'working',
+    currentJobCardNumber: 'BS-2026-202',
+    currentJobCardId: 'jc-202',
+    bay: 'Spray Booth 1',
+    activeTimerDurationMinutes: 50,
+    hourlyWage: 6.000,
+    completedJobsCount: 31,
+    reworkJobsCount: 0,
+    efficiencyRating: 96,
+  },
+  {
+    id: 'tech-04',
+    name: 'Vikram Sharma',
+    specialization: 'Mechanical & Suspension',
+    avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=120&auto=format&fit=crop&q=80',
+    phone: '+968 9567 8901',
+    status: 'available',
+    currentJobCardNumber: undefined,
+    currentJobCardId: undefined,
+    bay: 'Bay 2 (2-Post Lift)',
+    activeTimerDurationMinutes: 0,
+    hourlyWage: 4.800,
+    completedJobsCount: 36,
+    reworkJobsCount: 1,
+    efficiencyRating: 91,
+  },
+  {
+    id: 'tech-05',
+    name: 'Nabil Al-Farsi',
+    specialization: 'Auto Electrician',
+    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&auto=format&fit=crop&q=80',
+    phone: '+968 9678 9012',
+    status: 'on_break',
+    currentJobCardNumber: undefined,
+    currentJobCardId: undefined,
+    bay: 'Bay 3 (Diagnostic)',
+    activeTimerDurationMinutes: 0,
+    hourlyWage: 5.200,
+    completedJobsCount: 25,
+    reworkJobsCount: 0,
+    efficiencyRating: 95,
+  },
+];
+
+export const initialConsumables: ConsumableItem[] = [
+  {
+    id: 'cons-101',
+    sku: 'CSM-PNT-01',
+    name: '2K High Gloss Clear Coat (5L Can)',
+    category: 'paint_materials',
+    unit: 'Liters',
+    unitCost: 18.500,
+    stockQuantity: 34,
+    reorderLevel: 10,
+    warehouseLocation: 'Paint Room Shelf A1',
+  },
+  {
+    id: 'cons-102',
+    sku: 'CSM-PNT-02',
+    name: 'HS 2K Primer Surfacer Grey (3L)',
+    category: 'paint_materials',
+    unit: 'Liters',
+    unitCost: 12.000,
+    stockQuantity: 28,
+    reorderLevel: 8,
+    warehouseLocation: 'Paint Room Shelf A2',
+  },
+  {
+    id: 'cons-103',
+    sku: 'CSM-PNT-03',
+    name: 'Standox Universal Basecoat Binder (070 Pearl)',
+    category: 'paint_materials',
+    unit: 'Liters',
+    unitCost: 22.000,
+    stockQuantity: 15,
+    reorderLevel: 5,
+    warehouseLocation: 'Paint Room Shelf A3',
+  },
+  {
+    id: 'cons-104',
+    sku: 'CSM-PNT-04',
+    name: 'Auto Refinish 2K Thinner Fast (5L)',
+    category: 'paint_materials',
+    unit: 'Liters',
+    unitCost: 6.500,
+    stockQuantity: 60,
+    reorderLevel: 20,
+    warehouseLocation: 'Chemical Storage Bin 1',
+  },
+  {
+    id: 'cons-201',
+    sku: 'CSM-CLP-01',
+    name: 'Toyota/Lexus Bumper Retainer Clips (Pack of 50)',
+    category: 'clips_fasteners',
+    unit: 'Pcs',
+    unitCost: 0.120,
+    stockQuantity: 450,
+    reorderLevel: 100,
+    warehouseLocation: 'Bin C-12',
+  },
+  {
+    id: 'cons-202',
+    sku: 'CSM-CLP-02',
+    name: 'Nissan Fender & Splash Shield Push Pins',
+    category: 'clips_fasteners',
+    unit: 'Pcs',
+    unitCost: 0.100,
+    stockQuantity: 380,
+    reorderLevel: 80,
+    warehouseLocation: 'Bin C-14',
+  },
+  {
+    id: 'cons-203',
+    sku: 'CSM-CLP-03',
+    name: 'Underbody Engine Shield Hex Screws M6',
+    category: 'clips_fasteners',
+    unit: 'Pcs',
+    unitCost: 0.150,
+    stockQuantity: 500,
+    reorderLevel: 100,
+    warehouseLocation: 'Bin C-18',
+  },
+  {
+    id: 'cons-301',
+    sku: 'CSM-WLD-01',
+    name: 'MIG Welding Wire ER70S-6 0.8mm (15kg Spool)',
+    category: 'welding_rods',
+    unit: 'Spool',
+    unitCost: 14.500,
+    stockQuantity: 12,
+    reorderLevel: 3,
+    warehouseLocation: 'Welding Rack W1',
+  },
+  {
+    id: 'cons-302',
+    sku: 'CSM-WLD-02',
+    name: 'Body Dent Puller Wave Wire Electrodes (100pcs)',
+    category: 'welding_rods',
+    unit: 'Pcs',
+    unitCost: 0.250,
+    stockQuantity: 320,
+    reorderLevel: 50,
+    warehouseLocation: 'Welding Rack W2',
+  },
+  {
+    id: 'cons-303',
+    sku: 'CSM-WLD-03',
+    name: 'Lead-Free Auto Body Solder Rods (1kg)',
+    category: 'welding_rods',
+    unit: 'Rods',
+    unitCost: 1.800,
+    stockQuantity: 40,
+    reorderLevel: 10,
+    warehouseLocation: 'Welding Rack W3',
+  },
+  {
+    id: 'cons-401',
+    sku: 'CSM-LUB-01',
+    name: 'Castrol Edge 5W-30 Full Synthetic Oil (208L Drum)',
+    category: 'lubricants_fluids',
+    unit: 'Liters',
+    unitCost: 2.200,
+    stockQuantity: 480,
+    reorderLevel: 100,
+    warehouseLocation: 'Lube Dispenser Station 1',
+  },
+  {
+    id: 'cons-402',
+    sku: 'CSM-LUB-02',
+    name: 'DOT 4 High Performance Brake Fluid (1L)',
+    category: 'lubricants_fluids',
+    unit: 'Liters',
+    unitCost: 3.500,
+    stockQuantity: 45,
+    reorderLevel: 15,
+    warehouseLocation: 'Lube Cabinet L2',
+  },
+  {
+    id: 'cons-403',
+    sku: 'CSM-ABR-01',
+    name: 'Heavy Duty Brake Parts Cleaner Spray 500ml',
+    category: 'abrasives_tools',
+    unit: 'Cans',
+    unitCost: 1.400,
+    stockQuantity: 85,
+    reorderLevel: 25,
+    warehouseLocation: 'Supply Bay S1',
+  },
+  {
+    id: 'cons-404',
+    sku: 'CSM-ABR-02',
+    name: '3M Wetordry Sandpaper Discs P800/P1200',
+    category: 'abrasives_tools',
+    unit: 'Pcs',
+    unitCost: 0.350,
+    stockQuantity: 240,
+    reorderLevel: 50,
+    warehouseLocation: 'Bodyshop Drawer B4',
+  },
+];
+
+export const initialJobCards: JobCard[] = [
+  {
+    id: 'jc-101',
+    jobCardNumber: 'LB-2026-101', // Lube Serial Type
+    jobType: 'lube',
+    customerName: 'Sultan Al-Harthy',
+    contactPhone: '+968 9123 4567',
+    vehicleDetails: 'Toyota Land Cruiser V8 5.7L (Muscat 48291-A)',
+    plateNumber: 'Muscat 48291-A',
+    vinNumber: 'JTMHT05J58402914',
+    status: 'in_progress',
+    assignedTechnicianId: 'tech-01',
+    assignedTechnicianName: 'Rashid Al-Ghafri',
+    bayNumber: 'Bay 1 (Lube Pit)',
+    workTimerStatus: 'running',
+    timerStartedAt: '2026-09-19 08:30:00',
+    elapsedMinutes: 45,
+    isRepeatJob: false,
+    isRepeatCustomer: true,
+    repeatVisitCount: 2,
+    notes: 'Brake pad replacement and comprehensive 40,000 km general service.',
+    before_photo: 'https://images.unsplash.com/photo-1486006920555-c77dce18193b?w=600&auto=format&fit=crop&q=80',
+    after_photo: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&auto=format&fit=crop&q=80',
+    partsRequired: [
+      {
+        id: 'jcp-1',
+        partNumber: '90915-YZZD4',
+        partName: 'Toyota OEM Oil Filter Land Cruiser',
+        category: 'spare_part',
+        quantity: 1,
+        unitCost: 3.200,
+        unitPrice: 5.500,
+        status: 'allocated',
+        allocatedAt: '2026-09-19 08:35:00',
+      },
+      {
+        id: 'jcp-2',
+        partNumber: '04465-60280',
+        partName: 'Ceramic Brake Pads Front Set',
+        category: 'spare_part',
+        quantity: 1,
+        unitCost: 28.000,
+        unitPrice: 42.000,
+        status: 'allocated',
+        allocatedAt: '2026-09-19 08:40:00',
+      },
+      {
+        id: 'jcp-2b',
+        partNumber: '04466-60140',
+        partName: 'Ceramic Brake Pads Rear Set',
+        category: 'spare_part',
+        quantity: 1,
+        unitCost: 24.000,
+        unitPrice: 38.000,
+        status: 'allocated',
+        allocatedAt: '2026-09-19 08:42:00',
+      },
+    ],
+    consumablesUsed: [
+      {
+        id: 'jcc-1',
+        consumableId: 'cons-401',
+        name: 'Castrol Edge 5W-30 Full Synthetic Oil',
+        category: 'lubricants_fluids',
+        quantity: 7.5,
+        unit: 'Liters',
+        unitCost: 2.200,
+        totalCost: 16.500,
+        transferredAt: '2026-09-19 08:38:00',
+      },
+      {
+        id: 'jcc-2',
+        consumableId: 'cons-403',
+        name: 'Brake Parts Cleaner Spray 500ml',
+        category: 'abrasives_tools',
+        quantity: 2,
+        unit: 'Cans',
+        unitCost: 1.400,
+        totalCost: 2.800,
+        transferredAt: '2026-09-19 08:42:00',
+      },
+    ],
+    laborEntries: [
+      {
+        id: 'jcl-1',
+        technicianId: 'tech-01',
+        technicianName: 'Rashid Al-Ghafri',
+        operation: 'Engine Oil & Filter Drain / Fill / 32-Pt Check',
+        hourlyWageCost: 5.000,
+        hourlyChargeRate: 15.000,
+        hours: 1.0,
+        status: 'active',
+      },
+      {
+        id: 'jcl-2',
+        technicianId: 'tech-01',
+        technicianName: 'Rashid Al-Ghafri',
+        operation: 'Front & Rear Ceramic Brake Pads Installation & Bleeding',
+        hourlyWageCost: 5.000,
+        hourlyChargeRate: 15.000,
+        hours: 1.5,
+        status: 'active',
+      },
+    ],
+    createdAt: '2026-09-19 08:30:00',
+  },
+  {
+    id: 'jc-201',
+    jobCardNumber: 'BS-2026-201', // Bodyshop Serial Type
+    jobType: 'bodyshop',
+    customerName: 'Fatima Al-Balushi',
+    contactPhone: '+968 9988 2341',
+    vehicleDetails: 'Nissan Patrol Titanium (Barka 19482-B)',
+    plateNumber: 'Barka 19482-B',
+    vinNumber: 'JN1TBNY62Z0091823',
+    status: 'denting', // Denting Stage
+    assignedTechnicianId: 'tech-02',
+    assignedTechnicianName: 'Tariq Mahmoud',
+    bayNumber: 'Bay 4 (Chassis Jig)',
+    workTimerStatus: 'running',
+    timerStartedAt: '2026-09-19 07:45:00',
+    elapsedMinutes: 90,
+    isRepeatJob: false,
+    notes: 'Front bumper panel alignment, fender dent extraction, and preparation for paint booth.',
+    before_photo: 'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=600&auto=format&fit=crop&q=80',
+    after_photo: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=600&auto=format&fit=crop&q=80',
+    partsRequired: [
+      {
+        id: 'jcp-3',
+        partNumber: '62022-1LB0H',
+        partName: 'Nissan OEM Front Bumper Cover',
+        category: 'spare_part',
+        quantity: 1,
+        unitCost: 85.000,
+        unitPrice: 135.000,
+        status: 'arrived',
+        allocatedAt: '2026-09-19 08:00:00',
+      },
+      {
+        id: 'jcp-4',
+        partNumber: '26010-1LB4D',
+        partName: 'Right Headlamp Assembly Xenon',
+        category: 'spare_part',
+        quantity: 1,
+        unitCost: 95.000,
+        unitPrice: 145.000,
+        status: 'pending',
+      },
+    ],
+    consumablesUsed: [
+      {
+        id: 'jcc-3',
+        consumableId: 'cons-302',
+        name: 'Body Dent Puller Wave Wire Electrodes',
+        category: 'welding_rods',
+        quantity: 12,
+        unit: 'Pcs',
+        unitCost: 0.250,
+        totalCost: 3.000,
+        transferredAt: '2026-09-19 08:15:00',
+      },
+      {
+        id: 'jcc-4',
+        consumableId: 'cons-202',
+        name: 'Nissan Fender & Splash Shield Push Pins',
+        category: 'clips_fasteners',
+        quantity: 10,
+        unit: 'Pcs',
+        unitCost: 0.100,
+        totalCost: 1.000,
+        transferredAt: '2026-09-19 08:20:00',
+      },
+    ],
+    laborEntries: [
+      {
+        id: 'jcl-3',
+        technicianId: 'tech-02',
+        technicianName: 'Tariq Mahmoud',
+        operation: 'Fender alignment & precision dent pulling',
+        hourlyWageCost: 5.500,
+        hourlyChargeRate: 18.000,
+        hours: 3.0,
+        status: 'active',
+      },
+    ],
+    createdAt: '2026-09-18 11:30:00',
+  },
+  {
+    id: 'jc-202',
+    jobCardNumber: 'BS-2026-202',
+    jobType: 'bodyshop',
+    customerName: 'Ahmed Al-Zadjali',
+    contactPhone: '+968 9331 4455',
+    vehicleDetails: 'Lexus LX600 Pearl White (Muscat 11029-K)',
+    plateNumber: 'Muscat 11029-K',
+    vinNumber: 'JTJHY7AX8N4019283',
+    status: 'painting', // Painting Stage
+    assignedTechnicianId: 'tech-03',
+    assignedTechnicianName: 'Salim Al-Kharusi',
+    bayNumber: 'Spray Booth 1',
+    workTimerStatus: 'running',
+    timerStartedAt: '2026-09-19 09:00:00',
+    elapsedMinutes: 50,
+    isRepeatJob: false,
+    notes: '3-stage pearl white refinish for right rear quarter panel & door blend.',
+    before_photo: 'https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?w=600&auto=format&fit=crop&q=80',
+    after_photo: null,
+    partsRequired: [
+      {
+        id: 'jcp-5',
+        partNumber: '53811-60B20',
+        partName: 'Front Right Fender Panel Genuine',
+        category: 'spare_part',
+        quantity: 1,
+        unitCost: 110.000,
+        unitPrice: 165.000,
+        status: 'allocated',
+      },
+    ],
+    consumablesUsed: [
+      {
+        id: 'jcc-5',
+        consumableId: 'cons-101',
+        name: '2K High Gloss Clear Coat',
+        category: 'paint_materials',
+        quantity: 1.5,
+        unit: 'Liters',
+        unitCost: 18.500,
+        totalCost: 27.750,
+        transferredAt: '2026-09-19 09:10:00',
+      },
+      {
+        id: 'jcc-6',
+        consumableId: 'cons-103',
+        name: 'Standox Universal Basecoat Binder (070 Pearl)',
+        category: 'paint_materials',
+        quantity: 1.0,
+        unit: 'Liters',
+        unitCost: 22.000,
+        totalCost: 22.000,
+        transferredAt: '2026-09-19 09:12:00',
+      },
+      {
+        id: 'jcc-7',
+        consumableId: 'cons-104',
+        name: 'Auto Refinish 2K Thinner Fast',
+        category: 'paint_materials',
+        quantity: 0.8,
+        unit: 'Liters',
+        unitCost: 6.500,
+        totalCost: 5.200,
+        transferredAt: '2026-09-19 09:14:00',
+      },
+    ],
+    laborEntries: [
+      {
+        id: 'jcl-4',
+        technicianId: 'tech-03',
+        technicianName: 'Salim Al-Kharusi',
+        operation: '3-Stage Tri-Coat Pearl Base & Clear Application + Infrared Bake',
+        hourlyWageCost: 6.000,
+        hourlyChargeRate: 20.000,
+        hours: 4.0,
+        status: 'active',
+      },
+    ],
+    createdAt: '2026-09-18 15:40:00',
+  },
+  {
+    id: 'jc-102',
+    jobCardNumber: 'LB-2026-102',
+    jobType: 'lube',
+    customerName: 'Mohammed Al-Siyabi',
+    contactPhone: '+968 9224 8811',
+    vehicleDetails: 'Ford F-150 EcoBoost 3.5L (Seeb 7491-H)',
+    plateNumber: 'Seeb 7491-H',
+    vinNumber: '1FTFW1E84KFB19284',
+    status: 'parts_waiting', // Parts Waiting Stage
+    assignedTechnicianId: 'tech-04',
+    assignedTechnicianName: 'Vikram Sharma',
+    bayNumber: 'Bay 2 (2-Post Lift)',
+    workTimerStatus: 'paused',
+    pauseReason: 'Waiting for Valve Cover Gasket & Turbo coolant lines from regional depot',
+    elapsedMinutes: 60,
+    isRepeatJob: true, // REPEAT JOB TRACKING!
+    isRepeatCustomer: true,
+    repeatVisitCount: 2,
+    repeatReason: 'Return visit within 24 days: Minor oil seepage around lower valve cover after previous seal service.',
+    previousJobCardNumber: 'LB-2026-088',
+    notes: 'Warranty check on valve cover. Replacement gaskets ordered under supplier guarantee.',
+    before_photo: 'https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=600&auto=format&fit=crop&q=80',
+    after_photo: null,
+    partsRequired: [
+      {
+        id: 'jcp-6',
+        partNumber: 'DL3Z-6584-B',
+        partName: 'Valve Cover Gasket Right Bank Genuine',
+        category: 'spare_part',
+        quantity: 1,
+        unitCost: 14.000,
+        unitPrice: 22.000,
+        status: 'pending',
+      },
+      {
+        id: 'jcp-7',
+        partNumber: 'BL3Z-6A968-B',
+        partName: 'Turbo Coolant Return Line O-Rings (Pair)',
+        category: 'spare_part',
+        quantity: 2,
+        unitCost: 3.500,
+        unitPrice: 6.000,
+        status: 'ordered',
+      },
+    ],
+    consumablesUsed: [
+      {
+        id: 'jcc-8',
+        consumableId: 'cons-403',
+        name: 'Brake Parts Cleaner Spray 500ml',
+        category: 'abrasives_tools',
+        quantity: 1,
+        unit: 'Cans',
+        unitCost: 1.400,
+        totalCost: 1.400,
+        transferredAt: '2026-09-19 08:20:00',
+      },
+    ],
+    laborEntries: [
+      {
+        id: 'jcl-5',
+        technicianId: 'tech-04',
+        technicianName: 'Vikram Sharma',
+        operation: 'Warranty Inspection & Valve cover teardown',
+        hourlyWageCost: 4.800,
+        hourlyChargeRate: 0.000, // Warranty rework
+        hours: 1.0,
+        status: 'completed',
+      },
+    ],
+    createdAt: '2026-09-19 08:00:00',
+  },
+  {
+    id: 'jc-203',
+    jobCardNumber: 'BS-2026-203',
+    jobType: 'bodyshop',
+    customerName: 'Al-Khadra Logistics LLC',
+    contactPhone: '+968 9541 7720',
+    vehicleDetails: 'Isuzu NPR 4.5T Fleet Truck (Sohar 8201-C)',
+    plateNumber: 'Sohar 8201-C',
+    vinNumber: 'JAANPR71G57019284',
+    status: 'ready_to_deliver', // Ready to Deliver Stage
+    assignedTechnicianId: 'tech-02',
+    assignedTechnicianName: 'Tariq Mahmoud',
+    bayNumber: 'Bay 4',
+    workTimerStatus: 'stopped',
+    elapsedMinutes: 180,
+    isRepeatJob: false,
+    notes: 'Cargo bed corner reinforcement, side mirror replacement, bumper alignment completed.',
+    before_photo: 'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=600&auto=format&fit=crop&q=80',
+    after_photo: 'https://images.unsplash.com/photo-1559297434-fae8a1916a79?w=600&auto=format&fit=crop&q=80',
+    partsRequired: [
+      {
+        id: 'jcp-8',
+        partNumber: '8-97898-142-0',
+        partName: 'Isuzu Side Door Mirror Assembly',
+        category: 'spare_part',
+        quantity: 1,
+        unitCost: 24.000,
+        unitPrice: 38.000,
+        status: 'allocated',
+      },
+    ],
+    consumablesUsed: [
+      {
+        id: 'jcc-9',
+        consumableId: 'cons-301',
+        name: 'MIG Welding Wire ER70S-6',
+        category: 'welding_rods',
+        quantity: 0.5,
+        unit: 'Spool',
+        unitCost: 14.500,
+        totalCost: 7.250,
+        transferredAt: '2026-09-18 10:00:00',
+      },
+    ],
+    laborEntries: [
+      {
+        id: 'jcl-6',
+        technicianId: 'tech-02',
+        technicianName: 'Tariq Mahmoud',
+        operation: 'Cargo Bed Corner Structural Welding & Fitting',
+        hourlyWageCost: 5.500,
+        hourlyChargeRate: 16.000,
+        hours: 3.0,
+        status: 'completed',
+      },
+    ],
+    createdAt: '2026-09-18 08:30:00',
+  },
+  {
+    id: 'jc-088',
+    jobCardNumber: 'LB-2026-088',
+    jobType: 'lube',
+    customerName: 'Mohammed Al-Siyabi',
+    contactPhone: '+968 9224 8811',
+    vehicleDetails: 'Ford F-150 EcoBoost 3.5L (Seeb 7491-H)',
+    plateNumber: 'Seeb 7491-H',
+    vinNumber: '1FTFW1E84KFB19284',
+    status: 'delivered',
+    assignedTechnicianId: 'tech-04',
+    assignedTechnicianName: 'Vikram Sharma',
+    bayNumber: 'Bay 2 (2-Post Lift)',
+    workTimerStatus: 'stopped',
+    elapsedMinutes: 120,
+    isRepeatJob: false,
+    isRepeatCustomer: true,
+    repeatVisitCount: 1,
+    notes: 'Initial valve cover seal replacement and scheduled 60,000 km oil service.',
+    before_photo: 'https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=600&auto=format&fit=crop&q=80',
+    after_photo: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&auto=format&fit=crop&q=80',
+    partsRequired: [
+      {
+        id: 'jcp-88-1',
+        partNumber: 'DL3Z-6584-A',
+        partName: 'Valve Cover Gasket Left/Right Kit OEM',
+        category: 'spare_part',
+        quantity: 1,
+        unitCost: 18.000,
+        unitPrice: 28.000,
+        status: 'allocated',
+      },
+    ],
+    consumablesUsed: [
+      {
+        id: 'jcc-88-1',
+        consumableId: 'cons-201',
+        name: 'RTV High-Temp Silicone Gasket Maker Grey',
+        category: 'clips_hardware',
+        quantity: 1,
+        unit: 'Tubes',
+        unitCost: 2.800,
+        totalCost: 2.800,
+        transferredAt: '2026-08-25 10:15:00',
+      },
+    ],
+    laborEntries: [
+      {
+        id: 'jcl-88-1',
+        technicianId: 'tech-04',
+        technicianName: 'Vikram Sharma',
+        operation: 'Valve Cover Teardown, Cleaning and Gasket Seal Installation',
+        hourlyWageCost: 4.800,
+        hourlyChargeRate: 15.000,
+        hours: 2.5,
+        status: 'completed',
+      },
+    ],
+    createdAt: '2026-08-25 09:15:00',
+    completedAt: '2026-08-25 12:45:00',
+  },
+  {
+    id: 'jc-065',
+    jobCardNumber: 'LB-2026-065',
+    jobType: 'lube',
+    customerName: 'Sultan Al-Harthy',
+    contactPhone: '+968 9123 4567',
+    vehicleDetails: 'Toyota Land Cruiser V8 5.7L (Muscat 48291-A)',
+    plateNumber: 'Muscat 48291-A',
+    vinNumber: 'JTMHT05J58402914',
+    status: 'delivered',
+    assignedTechnicianId: 'tech-01',
+    assignedTechnicianName: 'Rashid Al-Ghafri',
+    bayNumber: 'Bay 1 (Lube Pit)',
+    workTimerStatus: 'stopped',
+    elapsedMinutes: 90,
+    isRepeatJob: false,
+    isRepeatCustomer: true,
+    repeatVisitCount: 1,
+    notes: 'Previous routine 30,000 km periodic service & brake fluid bleed.',
+    before_photo: 'https://images.unsplash.com/photo-1486006920555-c77dce18193b?w=600&auto=format&fit=crop&q=80',
+    after_photo: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&auto=format&fit=crop&q=80',
+    partsRequired: [
+      {
+        id: 'jcp-65-1',
+        partNumber: '04465-60280',
+        partName: 'Front Brake Pads Genuine Toyota',
+        category: 'spare_part',
+        quantity: 1,
+        unitCost: 28.000,
+        unitPrice: 42.000,
+        status: 'allocated',
+      },
+    ],
+    consumablesUsed: [
+      {
+        id: 'jcc-65-1',
+        consumableId: 'cons-403',
+        name: 'Brake Parts Cleaner Spray 500ml',
+        category: 'abrasives_tools',
+        quantity: 1,
+        unit: 'Cans',
+        unitCost: 1.400,
+        totalCost: 1.400,
+        transferredAt: '2026-07-14 10:00:00',
+      },
+    ],
+    laborEntries: [
+      {
+        id: 'jcl-65-1',
+        technicianId: 'tech-01',
+        technicianName: 'Rashid Al-Ghafri',
+        operation: 'Periodic Inspection, Lube & Front Brake Pad Fitting',
+        hourlyWageCost: 5.000,
+        hourlyChargeRate: 15.000,
+        hours: 1.5,
+        status: 'completed',
+      },
+    ],
+    createdAt: '2026-07-14 09:30:00',
+    completedAt: '2026-07-14 11:30:00',
+  },
+];
+
+export const initialEstimates: Estimate[] = [
+  {
+    id: 'est-051',
+    estimateNumber: 'EST-2026-051',
+    estimateType: 'parts_labour', // Spare parts + Labour Estimate
+    jobCardId: 'jc-101',
+    jobCardNumber: 'LB-2026-101',
+    customerName: 'Sultan Al-Harthy',
+    contactPhone: '+968 9123 4567',
+    vehicleDetails: 'Toyota Land Cruiser V8 5.7L (Muscat 48291-A)',
+    date: '2026-09-17',
+    validUntil: '2026-10-17',
+    items: [
+      { id: 'ei-1', type: 'part', partNumber: '90915-YZZD4', description: 'Toyota OEM Oil Filter Land Cruiser', quantity: 1, unitPrice: 5.500, total: 5.500 },
+      { id: 'ei-2', type: 'part', partNumber: '04465-60280', description: 'Ceramic Brake Pads Front Set', quantity: 1, unitPrice: 42.000, total: 42.000 },
+      { id: 'ei-3', type: 'part', partNumber: '04466-60140', description: 'Ceramic Brake Pads Rear Set', quantity: 1, unitPrice: 38.000, total: 38.000 },
+      { id: 'ei-4', type: 'labour', description: 'Engine Oil & Filter Drain / Fill / 32-Pt Inspection (1.0 hr)', quantity: 1, unitPrice: 15.000, total: 15.000 },
+      { id: 'ei-5', type: 'labour', description: 'Front & Rear Brake Pads Installation & Hydraulic Bleeding (2.6 hrs)', quantity: 1, unitPrice: 39.500, total: 39.500 },
+    ],
+    totalAmount: 140.000,
+    subtotal: 140.000,
+    vatRate: 0.05,
+    vatAmount: 7.000, // 5% Oman VAT
+    grandTotal: 147.000,
+    status: 'approved',
+    notes: 'OEM Ceramic brake pads (front + rear), hydraulic bleeding, 5% Oman VAT applied. Customer approved via WhatsApp.',
+    sentViaWhatsApp: true,
+    sentViaEmail: false,
+  },
+  {
+    id: 'est-052',
+    estimateNumber: 'EST-2026-052',
+    estimateType: 'lumpsum', // Lumpsum Package Estimate
+    jobCardId: 'jc-201',
+    jobCardNumber: 'BS-2026-201',
+    customerName: 'Fatima Al-Balushi',
+    contactPhone: '+968 9988 2341',
+    vehicleDetails: 'Nissan Patrol Titanium (Barka 19482-B)',
+    date: '2026-09-18',
+    validUntil: '2026-10-18',
+    lumpsumDetails: {
+      packageName: 'Premium Turnkey Bodyshop Package: Front End Refurbishment & 9H Ceramic Coat',
+      scopeOfWork: 'Includes front bumper panel replacement, dent extraction, oven baked color match, 3-stage rotary compounding, and 9H dual-layer ceramic nano coating with hydrophobic barrier.',
+      warranty: '2 Years Paint & Ceramic Coating Warranty with free 6-month inspection boost.',
+      packagePrice: 320.000,
+    },
+    totalAmount: 320.000,
+    subtotal: 320.000,
+    vatRate: 0.05,
+    vatAmount: 16.000, // 5% Oman VAT
+    grandTotal: 336.000,
+    status: 'invoiced',
+    notes: 'Turnkey Bodyshop package quote with 2-year warranty certificate included.',
+    sentViaWhatsApp: true,
+    sentViaEmail: true,
+  },
+  {
+    id: 'est-053',
+    estimateNumber: 'EST-2026-053',
+    estimateType: 'parts_labour',
+    jobCardId: 'jc-203',
+    jobCardNumber: 'BS-2026-203',
+    customerName: 'Al-Khadra Logistics LLC',
+    contactPhone: '+968 9541 7720',
+    vehicleDetails: 'Isuzu NPR 4.5T Fleet Truck (Sohar 8201-C)',
+    date: '2026-09-19',
+    validUntil: '2026-10-19',
+    insuranceCompany: 'Oman United Insurance SAOG',
+    claimNumber: 'OUI-CLM-2026-9812',
+    policyNumber: 'POL-COM-882194',
+    items: [
+      { id: 'ei-6', type: 'part', partNumber: '8-97898-142-0', description: 'Isuzu Side Door Mirror Assembly', quantity: 1, unitPrice: 38.000, total: 38.000 },
+      { id: 'ei-7', type: 'labour', description: 'Cargo Bed Corner Structural Welding & Fitting (3.0 hrs)', quantity: 1, unitPrice: 47.000, total: 47.000 },
+    ],
+    totalAmount: 85.000,
+    subtotal: 85.000,
+    vatRate: 0.05,
+    vatAmount: 4.250, // 5% Oman VAT
+    grandTotal: 89.250,
+    status: 'sent',
+    notes: 'Insurance claim quotation submitted to Oman United Insurance claims department.',
+    sentViaWhatsApp: false,
+    sentViaEmail: true,
+  },
+  {
+    id: 'est-054',
+    estimateNumber: 'EST-2026-054',
+    estimateType: 'lumpsum',
+    jobCardId: 'jc-102',
+    jobCardNumber: 'LB-2026-102',
+    customerName: 'Mohammed Al-Siyabi',
+    contactPhone: '+968 9224 8811',
+    vehicleDetails: 'Ford F-150 EcoBoost 3.5L (Seeb 7491-H)',
+    date: '2026-09-19',
+    validUntil: '2026-10-19',
+    lumpsumDetails: {
+      packageName: 'Comprehensive Major Service & Valve Sealing Package',
+      scopeOfWork: 'Full synthetic oil renewal, filter, valve cover gasket set replacement, cooling line check, transmission fluid health analysis, and chassis lubrication.',
+      warranty: '6 Months or 10,000 KM workshop warranty on all replaced seals and lubricants.',
+      packagePrice: 65.000,
+    },
+    totalAmount: 65.000,
+    subtotal: 65.000,
+    vatRate: 0.05,
+    vatAmount: 3.250,
+    grandTotal: 68.250,
+    status: 'draft',
+    notes: 'Pending customer approval before finalizing valve cover seal replacement.',
+    sentViaWhatsApp: false,
+    sentViaEmail: false,
+  },
+];
+
+export const initialNotificationLogs: NotificationLog[] = [
+  {
+    id: 1,
+    jobCardId: 101,
+    channel: 'WHATSAPP',
+    recipient: '+96891234567',
+    message: 'Hello Sultan, your vehicle estimate EST-2026-051 for Toyota Land Cruiser V8 is ready for approval: OMR 147.000 (inc. 5% Oman VAT). Review details & approve: https://erp.apex.om/est/051',
+    status: 'SENT',
+    sentAt: '2026-09-17 10:02:15',
+  },
+  {
+    id: 2,
+    jobCardId: 101,
+    channel: 'WHATSAPP',
+    recipient: '+96891234567',
+    message: 'Work in progress update: Before & after service inspection photos uploaded to your job card LB-2026-101. Work is 75% completed.',
+    status: 'SENT',
+    sentAt: '2026-09-17 14:22:40',
+  },
+  {
+    id: 3,
+    jobCardId: 201,
+    channel: 'WHATSAPP',
+    recipient: '+96899882341',
+    message: 'Greetings Fatima, Lumpsum estimate EST-2026-052 for Nissan Patrol Titanium is approved. Grand total: OMR 336.000. Denting stage in progress in Bay 4.',
+    status: 'SENT',
+    sentAt: '2026-09-18 16:45:10',
+  },
+  {
+    id: 4,
+    jobCardId: 203,
+    channel: 'EMAIL',
+    recipient: 'claims@omanunited.om',
+    message: 'Insurance Claim Quotation: Claim # OUI-CLM-2026-9812 | Vehicle: Isuzu NPR 4.5T (Sohar 8201-C) | Estimate EST-2026-053 for OMR 89.250 (inc. 5% VAT) with itemized survey sheet attached.',
+    status: 'SENT',
+    sentAt: '2026-09-19 08:15:22',
+  },
+  {
+    id: 5,
+    jobCardId: 102,
+    channel: 'WHATSAPP',
+    recipient: '+96892248811',
+    message: 'Apex Auto Workshop: Ford F-150 (Seeb 7491-H) intake registered under Job Card LB-2026-102. Repeat warranty review is underway in Bay 2.',
+    status: 'SENT',
+    sentAt: '2026-09-19 08:35:00',
+  },
+];
+
+export const initialSystemUsers: SystemUser[] = [
+  {
+    id: 'usr-1',
+    name: 'Anshad (CEO & Owner)',
+    email: 'anshad.owner@zukait.om',
+    phone: '+968 94616364',
+    role: 'Owner',
+    department: 'Executive Board',
+    status: 'active',
+    lastLogin: '2026-09-21 08:45:10',
+    twoFactorEnabled: true,
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&auto=format&fit=crop&q=80',
+  },
+  {
+    id: 'usr-manager',
+    name: 'Tariq Al-Balushi (General Manager)',
+    email: 'manager@zukait.om',
+    phone: '+968 93211154',
+    role: 'Manager',
+    department: 'Workshop Management',
+    status: 'active',
+    lastLogin: '2026-09-21 09:05:00',
+    twoFactorEnabled: true,
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80',
+  },
+  {
+    id: 'usr-operator',
+    name: 'Hassan Al-Zadjali (Intake Operator)',
+    email: 'operator@zukait.om',
+    phone: '+968 92403420',
+    role: 'Operator',
+    department: 'Front Desk & Intake',
+    status: 'active',
+    lastLogin: '2026-09-21 08:10:00',
+    twoFactorEnabled: false,
+    avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=120&auto=format&fit=crop&q=80',
+  },
+  {
+    id: 'usr-2',
+    name: 'Admin Supervisor',
+    email: 'admin@zukait.om',
+    phone: '+968 9988 7766',
+    role: 'Admin',
+    department: 'IT & Operations',
+    status: 'active',
+    lastLogin: '2026-09-20 09:12:00',
+    twoFactorEnabled: true,
+    avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&auto=format&fit=crop&q=80',
+  },
+  {
+    id: 'usr-3',
+    name: 'Rashid Al-Ghafri',
+    email: 'rashid.workshop@zukait.om',
+    phone: '+968 9112 3456',
+    role: 'Workshop Supervisor',
+    department: 'Lube & Body Workshop',
+    status: 'active',
+    lastLogin: '2026-09-21 08:15:22',
+    twoFactorEnabled: true,
+    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&auto=format&fit=crop&q=80',
+  },
+  {
+    id: 'usr-4',
+    name: 'Aisha Al-Mansoor',
+    email: 'aisha.finance@zukait.om',
+    phone: '+968 9456 7890',
+    role: 'Accountant',
+    department: 'Finance & Ledger',
+    status: 'active',
+    lastLogin: '2026-09-20 16:30:45',
+    twoFactorEnabled: true,
+    avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&auto=format&fit=crop&q=80',
+  },
+  {
+    id: 'usr-5',
+    name: 'Carlos Mendoza',
+    email: 'carlos.parts@zukait.om',
+    phone: '+968 9234 5678',
+    role: 'Inventory Clerk',
+    department: 'Parts & SCM',
+    status: 'active',
+    lastLogin: '2026-09-21 07:50:11',
+    twoFactorEnabled: false,
+    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&auto=format&fit=crop&q=80',
+  },
+  {
+    id: 'usr-6',
+    name: 'David Keller',
+    email: 'david.sales@zukait.om',
+    phone: '+968 9567 8901',
+    role: 'Sales Rep',
+    department: 'Service Reception & Estimates',
+    status: 'active',
+    lastLogin: '2026-09-21 08:20:00',
+    twoFactorEnabled: false,
+    avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=120&auto=format&fit=crop&q=80',
+  },
+  {
+    id: 'usr-7',
+    name: 'Priya Sharma',
+    email: 'priya.hr@zukait.om',
+    phone: '+968 9678 9012',
+    role: 'HR Manager',
+    department: 'Human Resources',
+    status: 'active',
+    lastLogin: '2026-09-20 14:10:00',
+    twoFactorEnabled: true,
+    avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=120&auto=format&fit=crop&q=80',
+  },
+  {
+    id: 'usr-8',
+    name: 'Salim Al-Harthy',
+    email: 'salim.frontdesk@zukait.om',
+    phone: '+968 9789 0123',
+    role: 'User',
+    department: 'Customer Desk',
+    status: 'active',
+    lastLogin: '2026-09-20 11:05:00',
+    twoFactorEnabled: false,
+  },
+  {
+    id: 'usr-9',
+    name: 'Customer / Public Visitor',
+    email: 'visitor@zukait.om',
+    phone: 'N/A',
+    role: 'Visitor',
+    department: 'Public Tracking & Website',
+    status: 'active',
+    lastLogin: '2026-09-21 09:15:00',
+    twoFactorEnabled: false,
+  }
+];
+
+const LOCAL_STORAGE_KEY = 'ENTERPRISE_ERP_DATA_V2';
+
+export function loadERPData(): ERPState {
+  if (typeof window === 'undefined') {
+    return resetERPData();
+  }
+
+  try {
+    const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (!raw) {
+      return resetERPData();
+    }
+    const parsed = JSON.parse(raw);
+    if (!parsed.settings) {
+      parsed.settings = {
+        currency: 'OMR',
+        companyName: 'ZUKAIT AUTO SERVICES INTERNATIONAL L.L.C.',
+        companyArabicName: 'زكيت لخدمات السيارات الدولية ش.م.م',
+        logoUrl: '/assets/zukait_logo.jpg',
+        workshopPhotoUrl: '/assets/zukait_workshop.jpg',
+        tagline: 'Computer Checking • AC Works • Electrical Works • Car Care',
+        vatRate: 5,
+        vatNumber: 'OM-VAT-1194220',
+        crNumber: '1194220',
+        phone: '+968 94616364 / +968 93211154',
+        email: 'service@zukait.om',
+        address: 'Barka Industrial Area (Sanayya, Barka), Sultanate of Oman',
+        workshopBayCount: 8,
+        defaultLaborRate: 15.000,
+        sessionTimeoutMinutes: 30,
+        require2FA: true,
+        restrictVisitorAccess: true,
+        ownerName: 'ANSHAD',
+        ownerPhone: '+968 94616364',
+        ownerVaultPin: '9461',
+        managerPermissions: DEFAULT_MANAGER_PERMISSIONS,
+      };
+    } else {
+      // Ensure Anshad Owner Vault and manager permissions are populated
+      if (!parsed.settings.ownerName) parsed.settings.ownerName = 'ANSHAD';
+      if (!parsed.settings.ownerPhone) parsed.settings.ownerPhone = '+968 94616364';
+      if (!parsed.settings.ownerVaultPin) parsed.settings.ownerVaultPin = '9461';
+      if (!parsed.settings.managerPermissions) parsed.settings.managerPermissions = DEFAULT_MANAGER_PERMISSIONS;
+      if (!parsed.settings.logoUrl) parsed.settings.logoUrl = '/assets/zukait_logo.jpg';
+      if (!parsed.settings.workshopPhotoUrl) parsed.settings.workshopPhotoUrl = '/assets/zukait_workshop.jpg';
+      if (!parsed.settings.companyArabicName) parsed.settings.companyArabicName = 'زكيت لخدمات السيارات الدولية ش.م.م';
+      if (!parsed.settings.companyName || parsed.settings.companyName.includes('Apex') || parsed.settings.companyName === 'ZUKAIT INTERNATIONAL LLC') {
+        parsed.settings.companyName = 'ZUKAIT AUTO SERVICES INTERNATIONAL L.L.C.';
+        parsed.settings.companyArabicName = 'زكيت لخدمات السيارات الدولية ش.م.م';
+        parsed.settings.address = 'Barka Industrial Area (Sanayya, Barka), Sultanate of Oman';
+        parsed.settings.crNumber = '1194220';
+        parsed.settings.vatNumber = 'OM-VAT-1194220';
+        parsed.settings.phone = '+968 94616364 / +968 93211154';
+        parsed.settings.email = 'service@zukait.om';
+        parsed.settings.logoUrl = '/assets/zukait_logo.jpg';
+        parsed.settings.workshopPhotoUrl = '/assets/zukait_workshop.jpg';
+      }
+    }
+    if (!parsed.auditLogs || !Array.isArray(parsed.auditLogs)) {
+      parsed.auditLogs = initialAuditLogs;
+    }
+    if (!parsed.jobCards || !Array.isArray(parsed.jobCards) || parsed.jobCards.length === 0) {
+      parsed.jobCards = initialJobCards;
+    }
+    if (!parsed.estimates || !Array.isArray(parsed.estimates) || parsed.estimates.length === 0) {
+      parsed.estimates = initialEstimates;
+    }
+    if (!parsed.notificationLogs || !Array.isArray(parsed.notificationLogs)) {
+      parsed.notificationLogs = initialNotificationLogs;
+    }
+    if (!parsed.technicians || !Array.isArray(parsed.technicians) || parsed.technicians.length === 0) {
+      parsed.technicians = initialTechnicians;
+    }
+    if (!parsed.consumables || !Array.isArray(parsed.consumables) || parsed.consumables.length === 0) {
+      parsed.consumables = initialConsumables;
+    }
+    if (!parsed.systemUsers || !Array.isArray(parsed.systemUsers) || parsed.systemUsers.length === 0) {
+      parsed.systemUsers = initialSystemUsers;
+    }
+    return parsed as ERPState;
+  } catch {
+    return resetERPData();
+  }
+}
+
+export function saveERPData(data: ERPState): void {
+  if (typeof window === 'undefined') return;
+  try {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(data));
+  } catch (err) {
+    console.error('Failed to persist ERP data', err);
+  }
+}
+
+export function resetERPData(): ERPState {
+  const initial: ERPState = {
+    settings: {
+      currency: 'OMR',
+      companyName: 'ZUKAIT AUTO SERVICES INTERNATIONAL L.L.C.',
+      companyArabicName: 'زكيت لخدمات السيارات الدولية ش.م.م',
+      logoUrl: '/assets/zukait_logo.jpg',
+      workshopPhotoUrl: '/assets/zukait_workshop.jpg',
+      tagline: 'Computer Checking • AC Works • Electrical Works • Car Care',
+      vatRate: 5,
+      vatNumber: 'OM-VAT-1194220',
+      crNumber: '1194220',
+      phone: '+968 94616364 / +968 93211154',
+      email: 'service@zukait.om',
+      address: 'Barka Industrial Area (Sanayya, Barka), Sultanate of Oman',
+      workshopBayCount: 8,
+      defaultLaborRate: 15.000,
+      sessionTimeoutMinutes: 30,
+      require2FA: true,
+      restrictVisitorAccess: true,
+      ownerName: 'ANSHAD',
+      ownerPhone: '+968 94616364',
+      ownerVaultPin: '9461',
+      managerPermissions: DEFAULT_MANAGER_PERMISSIONS,
+    },
+    products: initialProducts,
+    customers: initialCustomers,
+    vendors: initialVendors,
+    salesOrders: initialSalesOrders,
+    purchaseOrders: initialPurchaseOrders,
+    transactions: initialTransactions,
+    employees: initialEmployees,
+    workOrders: initialWorkOrders,
+    notifications: initialNotifications,
+    auditLogs: initialAuditLogs,
+    jobCards: initialJobCards,
+    estimates: initialEstimates,
+    notificationLogs: initialNotificationLogs,
+    technicians: initialTechnicians,
+    consumables: initialConsumables,
+    systemUsers: initialSystemUsers,
+  };
+  if (typeof window !== 'undefined') {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(initial));
+  }
+  return initial;
+}
